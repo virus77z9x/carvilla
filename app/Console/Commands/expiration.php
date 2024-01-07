@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Models\User;
 use Illuminate\Console\Command;
 
 class expiration extends Command
@@ -11,14 +12,14 @@ class expiration extends Command
      *
      * @var string
      */
-    protected $signature = 'app:expiration';
+    protected $signature = 'user:expire';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Command description';
+    protected $description = 'expire user everyminute automatically';
 
     /**
      * Execute the console command.
@@ -26,5 +27,9 @@ class expiration extends Command
     public function handle()
     {
         //
+        $users = User::where('expire', 0)->get();
+        foreach ($users as $user) {
+            $user->update(array('expire' => 1));
+        }
     }
 }
